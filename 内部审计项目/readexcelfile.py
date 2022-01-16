@@ -3,6 +3,10 @@ import os
 from turtle import end_fill
 import pandas as pd
 import xlrd
+
+#参考文档
+#https://zhuanlan.zhihu.com/p/56808884
+
 # 打开 xls 文件
 #book = xlrd.open_workbook("test.xls")
 #print "表单数量:", book.nsheets
@@ -16,6 +20,19 @@ import xlrd
 #for r in range(s.nrows):
 # 输出指定行
 #print s.row(r)
+
+class OSDirectory:
+    DirectoryList = set()
+    FileList = set()
+    def ReadDirectory(self,directory):
+        for root,dirs,files in os.walk(directory): 
+            for dir in dirs: 
+                #self.DirectoryList.add(os.path.join(root,dir).decode('gbk').encode('utf-8'))
+                self.DirectoryList.add(dir)
+            for file in files: 
+                #self.FileList.add(os.path.join(root,file).decode('gbk').encode('utf-8'))
+                self.FileList.add(file)
+            return self.DirectoryList,self.FileList
 
 #excel文件类
 class ExcelFile:    
@@ -67,6 +84,8 @@ for sheetItem in excelFile.Book.sheets():
     for r in range(sheetItem.nrows):
         print ("行内容：" ,sheetItem.row(r))
 
+osDirectory = OSDirectory()
+print ("目录 = " , osDirectory.ReadDirectory("d:\\tools\\"))
 # 输出指定行
 #df = pd.read_excel("")
 #读取excel文件内容
